@@ -1,0 +1,16 @@
+input[type=file]::file-selector-button {
+    direction: rtl;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+    background: #539afd;
+}
+
+input[type=file]{
+    background-color: transparent;
+}
