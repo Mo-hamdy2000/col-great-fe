@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function Home() {
+function Challenge() {
   const [challenges, setChallenges] = useState([]);
   const [userStats, setUserStats] = useState({
     points: 1250,
@@ -12,6 +12,34 @@ function Home() {
     percentile: 95, // top 5%
     username: "أحمد", // Add username to state
     avatar: "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg" // Add avatar URL to state
+  });
+
+  const [challengeDetails, setChallengeDetails] = useState({
+    title: "تحدي تنظيف الأسنان",
+    description: "تحدي لمدة 7 أيام لتحسين صحة الأسنان من خلال التنظيف المنتظم",
+    totalPoints: 350,
+    daysCompleted: 5,
+    totalDays: 7,
+    currentStreak: 3
+  });
+
+  const [dailyTask, setDailyTask] = useState({
+    text: "قم بتنظيف أسنانك لمدة دقيقتين على الأقل",
+    image_url: null,
+    video_url: null,
+    is_completed: false,
+    upload_required: false
+  });
+
+  const [mcqQuestion, setMcqQuestion] = useState({
+    question: "ما هي المدة المثالية لتنظيف الأسنان؟",
+    choices: [
+      "30 ثانية",
+      "دقيقة واحدة",
+      "دقيقتان",
+      "3 دقائق"
+    ],
+    status: "not_answered" // can be "not_answered", "answered_correct", "answered_wrong"
   });
 
   // Video data - replace with your actual video sources
@@ -99,88 +127,119 @@ function Home() {
     );
   };
 
-  return (
-    <>
-      {/* Add Stats Section */}
-      <div className="user-stats-container">
-        <div className="stats-card">
-          <div className="points-section">
-            <div className="points-circle">
-              <span className="points-number">{userStats.points}</span>
-              <span className="points-label">نقطة</span>
-            </div>
-          </div>
-          <div className="rank-section">
-            <div className="rank-info">
-              <div className="rank-number">
-                <span className="rank-hash">#</span>
-                <span className="rank-value">{userStats.rank}</span>
-              </div>
-              <div className="rank-details">
-                <span className="rank-label">من {userStats.totalUsers} مستخدم</span>
-                <span className="rank-percentile">متصدر على {userStats.percentile}%</span>
-              </div>
-            </div>
-          </div>
+  const handleTaskComplete = () => {
+    setDailyTask(prev => ({ ...prev, is_completed: true }));
+  };
 
-          <div className="user-info">
-            <span className="username">{userStats.username}</span>
-            <img 
-              src={userStats.avatar} 
-              alt={userStats.username} 
-              className="user-avatar"
-            />
-          </div>
-        </div>
+  const handlePhotoUpload = (event) => {
+    // Handle photo upload logic
+    console.log('Photo uploaded:', event.target.files[0]);
+  };
+
+  const handleMcqSubmit = (selectedChoice) => {
+    // Handle MCQ submission logic
+    setMcqQuestion(prev => ({ ...prev, status: "answered_correct" }));
+  };
+
+  return (
+    <div className="content-section">
+      {/* Challenge Header */}
+      <div className="challenge-header">
+        <h1>{challengeDetails.title}</h1>
+        <p>{challengeDetails.description}</p>
       </div>
 
-      <div className="content-section">
-        {/* Video Slider Section */}
-        {/* <div className="video-slider">
-          <Slider {...sliderSettings}>
-            {videos.map((video) => (
-              <div key={video.id} className="video-slide">
-                <video src={video.url} controls>
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            ))}
-          </Slider>
-        </div> */}
-
-        {/* Updated Challenges Grid */}
-        <div className="content-grid">
-          {challenges.map((challenge) => (
-            <div 
-              key={challenge.id} 
-              className={`challenge-card ${!challenge.can_enroll ? 'dimmed' : ''}`}
-            >
-              <img 
-                src={challenge.image_url} 
-                alt={challenge.title} 
-                className="challenge-image"
-              />
-              <h3>{challenge.title}</h3>
-              <div className="challenge-status">
-                {statusMapper[challenge.status]}
-              </div>
-              {challenge.status === 'enrolled_in' && challenge.tracker_info && (
-                renderProgressBar(challenge.tracker_info)
-              )}
-              <button 
-                onClick={() => handleChallengeClick(challenge.id)}
-                className="challenge-button"
-                disabled={!challenge.can_enroll}
-              >
-                {challenge.status === 'enrolled_in' ? 'اكمل' : 
-                 challenge.status === 'finished' ? 'تم الانتهاء' : 'ابدأ الآن'}
-              </button>
+      {/* Video Slider Section */}
+      <div className="video-slider">
+        <Slider {...sliderSettings}>
+          {videos.map((video) => (
+            <div key={video.id} className="video-slide">
+              <video src={video.url} controls>
+                Your browser does not support the video tag.
+              </video>
             </div>
           ))}
+        </Slider>
+      </div>
+
+      {/* Daily Task Section */}
+      <div className="daily-task-section">
+        <h2>مهمة اليوم</h2>
+        <div className="task-content">
+          <p>{dailyTask.text}</p>
+          {dailyTask.image_url && (
+            <img src={dailyTask.image_url} alt="Task illustration" />
+          )}
+          {dailyTask.video_url && (
+            <video src={dailyTask.video_url} controls />
+          )}
+          <div className="task-actions">
+            <button 
+              onClick={handleTaskComplete}
+              disabled={dailyTask.is_completed}
+              className={`task-button ${dailyTask.is_completed ? 'completed' : ''}`}
+            >
+              {dailyTask.is_completed ? '✓ تم الإنجاز' : 'إتمام المهمة'}
+            </button>
+            {dailyTask.upload_required && (
+              <div className="upload-section">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handlePhotoUpload}
+                  disabled={dailyTask.is_completed}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </>
+
+      {/* MCQ Section */}
+      {mcqQuestion.status === "not_answered" && (
+        <div className="mcq-section">
+          <h2>سؤال اليوم</h2>
+          <p>{mcqQuestion.question}</p>
+          <div className="choices">
+            {mcqQuestion.choices.map((choice, index) => (
+              <button 
+                key={index}
+                onClick={() => handleMcqSubmit(choice)}
+                className="choice-button"
+              >
+                {choice}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Challenge Progress Section */}
+      <div className="challenge-progress">
+        <div className="progress-stats">
+          <div className="stat-item">
+            <span className="stat-value">{challengeDetails.totalPoints}</span>
+            <span className="stat-label">النقاط المكتسبة</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">{challengeDetails.currentStreak} 🔥</span>
+            <span className="stat-label">أيام متتالية</span>
+          </div>
+        </div>
+        <div className="challenge-progress-bar">
+          <div 
+            className="progress-fill" 
+            style={{ 
+              width: `${(challengeDetails.daysCompleted / challengeDetails.totalDays) * 100}%` 
+            }}
+          />
+          <span className="progress-text">
+            {challengeDetails.daysCompleted}/{challengeDetails.totalDays} أيام
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default Home;
+export default Challenge;

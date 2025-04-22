@@ -5,7 +5,8 @@ import AdminLayout from "../layouts/AdminLayout";
 import ModulesLayout from "../layouts/ModulesLayout/ModulesLayout";
 import Auth from "../pages/Auth";
 import Home from "../pages/Home";
-import Lesson from "../pages/Lesson";
+import Challenge from "../pages/Challenge";
+import Leaderboard from "../pages/Leaderboard";
 import Profile from "../pages/Profile";
 import Instructions from "../pages/Instructions";
 import Objectives from "../pages/module/Objectives/Objectives";
@@ -31,10 +32,11 @@ const AppRoutes = () => {
         <Route element={<PrivateLayout />}>
           <Route path="/upload" element={<Upload />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/challenge/:id" element={<Challenge />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/instructions" element={<Instructions />} />
           <Route path="/objectives" element={<OverallObjectives />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/lessons/:id" element={<Lesson />} />
           <Route path="/modules/:id" element={<ModulesLayout />}>
             <Route path="objectives" element={<Objectives />} />
             <Route path="content" element={<Content />} />

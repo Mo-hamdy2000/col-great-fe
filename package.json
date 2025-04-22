@@ -1,7 +1,7 @@
 {
-  "name": "ale-website",
+  "name": "col-great",
   "version": "0.1.0",
-  "homepage": "https://mo-hamdy2000.github.io/aleplusplus-website-dep/",
+  "homepage": "https://mo-hamdy2000.github.io/col-great/",
   "private": true,
   "dependencies": {
     "@popperjs/core": "^2.11.6",
