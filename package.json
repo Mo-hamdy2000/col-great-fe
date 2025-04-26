@@ -1,7 +1,7 @@
 {
   "name": "col-great",
-  "version": "0.1.0",
-  "homepage": "https://mo-hamdy2000.github.io/col-great/",
+  "version": "1.0.0",
+  "homepage": "https://mo-hamdy2000.github.io/col-great-fe/",
   "private": true,
   "dependencies": {
     "@popperjs/core": "^2.11.6",
