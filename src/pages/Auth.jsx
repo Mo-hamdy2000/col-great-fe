@@ -3,7 +3,6 @@ import "../Assets/Styles/auth.css";
 import SignInForm from "../Components/Auth/SignIn";
 import SignUpForm from "../Components/Auth/SignUp";
 import logo from "../Assets/logo.png";
-import who from "../Assets/who.jpg";
 
 const Auth = () => {
   const [type, setType] = useState("signIn");
@@ -94,7 +93,7 @@ const Auth = () => {
             <div className="about-grid">
               <div className="about-text animate-slide-right">
                 <div className="about-image-container">
-                  <img src={who} alt="Our Team" className="about-image" />
+                  <img src={logo} alt="Our Team" className="about-image" />
                 </div>
                 <p>نحن فريق متخصص من أطباء الأسنان والمبرمجين، نسعى لتقديم تجربة رعاية صحية فريدة تجمع بين الخبرة الطبية والتكنولوجيا المتقدمة.</p>
                 <ul className="about-list">

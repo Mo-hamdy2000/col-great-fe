@@ -1,36 +1,52 @@
 import { useState, useEffect } from 'react';
+import { makeAuthenticatedRequest } from '../utils/makeAuthenticatedRequest';
 
 function Leaderboard() {
-  const [userStats, setUserStats] = useState({
-    points: 1250,
-    rank: 55,
-    totalUsers: 1200,
-    percentile: 95,
-    username: "أحمد",
-    avatar: "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
-  });
+  const AVATAR_URL = "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
+  const BLANK_USER_OBJECT = { points: "", rank: "", totalUsers: "", percentile: "", username: "" }
+  const [userStats, setUserStats] = useState(BLANK_USER_OBJECT);
+
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        const data = await makeAuthenticatedRequest('users/me');
+        const user = data.user;
+        setUserStats({
+          points: user.points,
+          rank: user.rank,
+          totalUsers: user.total_users,
+          percentile: user.percentile,
+          username: user.name
+        });
+      } catch (error) {
+        console.error('Failed to fetch user stats:', error);
+      }
+    };
+
+    fetchUserStats();
+  }, []);
 
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  let offset = currentPage - 1 * usersPerPage;
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    // Mock API call to get leaderboard data
-    const mockUsers = Array.from({ length: 50 }, (_, i) => ({
-      id: i + 1,
-      username: `مستخدم ${i + 1}`,
-      points: Math.floor(Math.random() * 2000) + 500,
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`,
-      streak: Math.floor(Math.random() * 30) + 1,
-    })).sort((a, b) => b.points - a.points);
+    const fetchUsers = async () => {
+      try {
+        const response = await makeAuthenticatedRequest(`users?items=${usersPerPage}&page=${currentPage}`);
+        const users = response.users;
+        setUsers(users);
+        setTotalPages(response.total_pages);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      }
+    };
 
-    setUsers(mockUsers);
-  }, []);
-
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  const totalPages = Math.ceil(users.length / usersPerPage);
+    fetchUsers();
+    
+  }, [currentPage]);
 
   return (
     <div className="fade-in">
@@ -57,7 +73,7 @@ function Leaderboard() {
           </div>
           <div className="user-info">
             <span className="username">{userStats.username}</span>
-            <img src={userStats.avatar} alt={userStats.username} className="user-avatar" />
+            <img src={AVATAR_URL} alt={userStats.username} className="user-avatar" />
           </div>
         </div>
       </div>
@@ -65,11 +81,12 @@ function Leaderboard() {
       {/* Leaderboard List Section */}
       <div className="leaderboard-list">
         <h2>قائمة المتصدرين</h2>
-        {currentUsers.map((user, index) => (
+        { console.log(offset = (currentPage - 1) * usersPerPage) }
+        {users.map((user, index) => (
           <div key={user.id} className="leaderboard-row">
-            <div className="rank">#{indexOfFirstUser + index + 1}</div>
+            <div className="rank">#{offset + index + 1}</div>
             <div className="user-details-leaderboard">
-              <img src={user.avatar} alt={user.username} className="user-avatar" />
+              <img src={AVATAR_URL} alt={user.username} className="user-avatar" />
               <span className="username">{user.username}</span>
             </div>
             <div className="leaderboard-stats">

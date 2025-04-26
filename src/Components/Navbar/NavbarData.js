@@ -4,11 +4,11 @@ export const NavbarData = [
     path: "/home",
   },
   {
-    title: "التعليمات",
-    path: "/instructions",
+    title: "خدماتنا",
+    path: "/objectives",
   },
   {
-    title: "الأهداف",
-    path: "/objectives",
+    title: "الترتيب",
+    path: "/leaderboard",
   }
 ];

@@ -25,7 +25,7 @@ function SignInForm() {
     evt.preventDefault();
 
     const { email, password } = state;
-    let data = { email: email, password: password };
+    let data = { email: email, password: password, device_id: "dummy_device_id" };
     const url = config.API_URL + "sessions";
     const route = "/home";
     fetch(url, {

@@ -9,7 +9,6 @@ import Challenge from "../pages/Challenge";
 import Leaderboard from "../pages/Leaderboard";
 import Profile from "../pages/Profile";
 import Instructions from "../pages/Instructions";
-import Objectives from "../pages/module/Objectives/Objectives";
 import OverallObjectives from "../pages/Objectives";
 import Content from "../pages/module/Content/Content";
 import Activities from "../pages/module/Activities/Activities";
@@ -38,7 +37,6 @@ const AppRoutes = () => {
           <Route path="/objectives" element={<OverallObjectives />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/modules/:id" element={<ModulesLayout />}>
-            <Route path="objectives" element={<Objectives />} />
             <Route path="content" element={<Content />} />
             <Route path="activities" element={<Activities />} />
             <Route path="resources" element={<Resources />} />
