@@ -24,7 +24,7 @@ function SignUpForm() {
 
     const { name, email, password, dateOfBirth } = state;
 
-    let data = { email: email, password: password, name: name, dateOfBirth: dateOfBirth };
+    let data = { email: email, password: password, name: name, date_of_birth: dateOfBirth, device_id: 'Dummy device' };
     const url = config.API_URL + "users";
 
     fetch(url, {

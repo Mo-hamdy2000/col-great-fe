@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { makeAuthenticatedRequest } from '../utils/makeAuthenticatedRequest';
 import { useParams } from 'react-router-dom';
-import { computeStyles } from '@popperjs/core';
 
 function Challenge() {
   const BLANK_CHALLENGE_OBJECT = { title: "", videos: [], description: "", totalPoints: "", daysCompleted: "", totalDays: "", currentStreak: "" }
@@ -102,7 +101,7 @@ function Challenge() {
     fetchChallengeDetails();
   }, [1]);
 
-  const handleGainingPoints = (points, streak) => {
+  const handleGainingPoints = (points, streak, shouldProgressbarAdvance = true) => {
     const popup = document.createElement('div');
     popup.className = 'points-popup animate-points';
     popup.innerHTML = `+${points} نقطة`;
@@ -111,7 +110,8 @@ function Challenge() {
     setTracker(prev => ({
       ...prev,
       earned_points: prev.earned_points + points,
-      current_streak: streak ? streak : prev.streak
+      current_streak: streak ? streak : prev.streak,
+      days_completed: shouldProgressbarAdvance ? prev.days_completed + 1 : prev.days_completed
     }));
   }
 
@@ -123,12 +123,26 @@ function Challenge() {
       );
       
       if (response.success) {
-        extractTaskEntity(response.user_task_progress);
-        handleGainingPoints(dailyTask.points, response.user_task_progress.streak);
+        if (response.message) {
+          if (response.message === "Upload required") {
+            showErrorPopup("يجب رفع صورة لإتمام المهمة");
+          }
+        } else {
+          extractTaskEntity(response.user_task_progress);
+          handleGainingPoints(dailyTask.points, response.user_task_progress.streak, true);
+        }
       }
     } catch (error) {
       console.error('Error marking task as completed:', error);
     }
+  };
+
+  const showErrorPopup = (message) => {
+    const popup = document.createElement('div');
+    popup.className = 'error-popup animate-error';
+    popup.innerHTML = `<div class="error-icon">⚠️</div><div class="error-message">${message}</div>`;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 3000);
   };
 
   const handlePhotoUpload = (event) => {
@@ -145,7 +159,7 @@ function Challenge() {
     const isCorrect = mcqQuestion.user_answer === mcqQuestion.correct_answer;
 
     if (isCorrect) {
-      handleGainingPoints(mcqQuestion.points, tracker.current_streak);
+      handleGainingPoints(mcqQuestion.points, tracker.current_streak, false);
     }
   };
 
@@ -165,7 +179,7 @@ function Challenge() {
   useEffect(() => {
     if (dailyTask.is_completed) {
       updateTimeUntilMidnight();
-      const timer = setInterval(updateTimeUntilMidnight, 1000); // Update every second instead of minute
+      const timer = setInterval(updateTimeUntilMidnight, 1000);
       return () => clearInterval(timer);
     }
   }, [dailyTask.is_completed]);
@@ -242,7 +256,7 @@ function Challenge() {
             <div className="task-content">
               <p className="task-text">{dailyTask.text}</p>
               {dailyTask.image_url && (
-                <img src={dailyTask.image_url} alt="Task illustration" />
+                <img src={dailyTask.image_url} style={{ objectFit: 'contain', borderRadius: '10px', width: '100%' }} alt="Task illustration" />
               )}
               {dailyTask.video_url && (
                 <video src={dailyTask.video_url} controls />
@@ -257,11 +271,17 @@ function Challenge() {
                 </button>
                 {dailyTask.upload_required && (
                   <div className="upload-section">
+                    <label htmlFor="task-photo-upload" className="upload-label">
+                      <div className="upload-icon">📷</div>
+                      <div className="upload-text">اضغط هنا لرفع صورة</div>
+                    </label>
                     <input 
+                      id="task-photo-upload"
                       type="file" 
                       accept="image/*" 
                       onChange={handlePhotoUpload}
                       disabled={dailyTask.is_completed}
+                      className="upload-input"
                     />
                   </div>
                 )}

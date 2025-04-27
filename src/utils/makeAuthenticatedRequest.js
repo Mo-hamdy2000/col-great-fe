@@ -20,7 +20,12 @@ export const makeAuthenticatedRequest = async (endpoint, options = {}) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    localStorage.clear();
+    
+    alert('Your login has expired. Please log in again.');
+    
+    window.location.href = '/';
+    return null;
   }
 
   return response.json();

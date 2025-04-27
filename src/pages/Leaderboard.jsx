@@ -86,8 +86,8 @@ function Leaderboard() {
           <div key={user.id} className="leaderboard-row">
             <div className="rank">#{offset + index + 1}</div>
             <div className="user-details-leaderboard">
-              <img src={AVATAR_URL} alt={user.username} className="user-avatar" />
-              <span className="username">{user.username}</span>
+              <img src={AVATAR_URL} alt={user.name} className="user-avatar" />
+              <span className="username">{user.name}</span>
             </div>
             <div className="leaderboard-stats">
               <div className="leaderboard-points">
