@@ -90,7 +90,6 @@ function Challenge() {
 
   useEffect(() => {
     const fetchChallengeDetails = async () => {
-      console.log("Hey");
       const data = await makeAuthenticatedRequest(
         `challenges/${id}/join`,
         { method: 'POST' });
@@ -115,18 +114,15 @@ function Challenge() {
     }));
   }
 
-  const handleTaskComplete = async () => {
+  const handleTaskComplete = async (image_url) => {
     try {
       const response = await makeAuthenticatedRequest(
         `user_task_progresses/${dailyTask.user_task_progress_id}/mark_as_completed`,
-        { method: 'POST' }
+        { method: 'POST', body: typeof image_url === 'string' ? JSON.stringify({ image_url: image_url }) : null }
       );
-      
       if (response.success) {
-        if (response.message) {
-          if (response.message === "Upload required") {
-            showErrorPopup("يجب رفع صورة لإتمام المهمة");
-          }
+        if (response.message === "Upload required") {
+          showErrorPopup("يجب رفع صورة لإتمام المهمة");
         } else {
           extractTaskEntity(response.user_task_progress);
           handleGainingPoints(dailyTask.points, response.user_task_progress.streak, true);
@@ -145,9 +141,41 @@ function Challenge() {
     setTimeout(() => popup.remove(), 3000);
   };
 
-  const handlePhotoUpload = (event) => {
-    // Handle photo upload logic
-    console.log('Photo uploaded:', event.target.files[0]);
+  const handlePhotoUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const presignedData = await makeAuthenticatedRequest(
+      'r2_presigners',
+      { 
+        method: 'POST',
+        body: JSON.stringify({ 
+          file_name: file.name,
+          content_type: file.type
+        })
+      }
+    );
+    console.log(JSON.stringify(presignedData));
+    const uploadResponse = await fetch(presignedData.upload_url, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type
+      }
+    });
+    
+    if (!uploadResponse.ok) {
+      showErrorPopup('حدث خطأ أثناء رفع الصورة، يرجى المحاولة مرة أخرى');
+    }
+
+    // Show success message
+    const popup = document.createElement('div');
+    popup.className = 'points-popup animate-points';
+    popup.innerHTML = `تم رفع الصورة بنجاح`;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 2000);
+
+    await handleTaskComplete(presignedData.download_url);
   };
 
   const handleMcqSubmit = async (selectedChoice) => {
@@ -269,7 +297,7 @@ function Challenge() {
                 >
                   {dailyTask.is_completed ? '✓ تم الإنجاز' : 'إتمام المهمة'}
                 </button>
-                {dailyTask.upload_required && (
+                {!dailyTask.is_completed && dailyTask.upload_required && (
                   <div className="upload-section">
                     <label htmlFor="task-photo-upload" className="upload-label">
                       <div className="upload-icon">📷</div>
