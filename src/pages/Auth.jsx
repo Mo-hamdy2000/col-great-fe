@@ -216,13 +216,19 @@ const Auth = () => {
           </div>
           <div className="footer-contact">
             <h3>تواصل معنا</h3>
-            <p>📞 الهاتف: xxx-xxx-xxxx</p>
-            <p>📧 البريد الإلكتروني: info@example.com</p>
+            <p>📧 البريد الإلكتروني: col.great.help@gmail.com</p>
           </div>
           <div className="footer-social">
             <h3>تابعنا على</h3>
             <div className="social-links">
-              {/* Add your social media icons/links here */}
+              <a href="https://www.facebook.com/profile.php?id=61575567788545" target="_blank" rel="noopener noreferrer" className="social-link">
+                <i className="fab fa-facebook-f white-icon"></i>
+                <span>Facebook</span>
+              </a>
+              <a href="https://www.instagram.com/colgreatdent?igsh=MWR3MGczZnA1YTdrMw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="social-link">
+                <i className="fab fa-instagram white-icon"></i>
+                <span>Instagram</span>
+              </a>
             </div>
           </div>
         </div>

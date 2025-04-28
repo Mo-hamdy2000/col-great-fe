@@ -835,11 +835,12 @@ footer a {
 .site-footer {
   background: linear-gradient(to right, var(--dental-blue), var(--dental-red));
   color: white;
-  padding: 1rem 1rem; /* Reduced from 4rem to 2rem for top/bottom */
+  padding: 1rem 1rem;
   margin-top: 4rem;
-  position: relative; /* Ensures proper stacking */
-  z-index: 1; /* Sets stacking order */
+  position: relative;
+  z-index: 1;
   border-radius: 10px;
+  text-align: center;
 }
 
 .footer-content {
@@ -848,6 +849,13 @@ footer a {
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: center;
+  justify-items: center;
+}
+
+.footer-logo {
+  display: flex;
+  justify-content: center;
 }
 
 .footer-logo-image {
@@ -856,14 +864,29 @@ footer a {
   border-radius: 50%;
 }
 
-.main-content {
-  padding-top: 100px;
+.footer-contact, .footer-social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .social-links {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 1rem;
+  align-items: center;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.main-content {
+  padding-top: 100px;
 }
 
 /* Background Image Support - Updated */
@@ -907,4 +930,45 @@ footer a {
     grid-template-columns: 1fr;
     text-align: center;
   }
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-link i {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.social-link:hover {
+  color: #4db6ac;
+}
+
+/* Make social icons white */
+.white-icon {
+  color: white;
+}
+
+/* Display social links vertically */
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
