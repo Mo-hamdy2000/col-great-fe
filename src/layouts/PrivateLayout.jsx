@@ -9,7 +9,7 @@ const PrivateLayout = () => {
 
   useEffect(() => {
     if (!token) navigate("/");
-    if (isAdmin == true) navigate("/dashboard")
+    if (isAdmin === true) navigate("/dashboard")
   }, [token]);
 
   return (

@@ -1,6 +1,5 @@
 import React from "react";
 import config from "../../config";
-import { useNavigate } from "react-router-dom";
 function SignUpForm() {
   const [state, setState] = React.useState({
     name: "",
@@ -8,8 +7,6 @@ function SignUpForm() {
     password: "",
     dateOfBirth: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (evt) => {
     const value = evt.target.value;
