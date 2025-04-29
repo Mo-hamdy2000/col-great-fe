@@ -25,12 +25,12 @@ const retrieveStoredToken = () => {
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
-  if (remainingTime <= 1000) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expirationTime");
-    localStorage.removeItem("isAdmin");
-    return null;
-  }
+  // if (remainingTime <= 1000) {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("expirationTime");
+  //   localStorage.removeItem("isAdmin");
+  //   return null;
+  // }
 
   return {
     token: storedToken,
@@ -78,14 +78,14 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("expirationTime", expirationDate);
     localStorage.setItem("isAdmin", isAdmin);
 
-    const remainingTime = calculateRemainingTime(expirationDate);
+    // const remainingTime = calculateRemainingTime(expirationDate);
 
-    logoutTimer = setTimeout(logoutHandler, remainingTime);
+    // logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
   useEffect(() => {
     if (tokenData) {
-      logoutTimer = setTimeout(logoutHandler, tokenData.duration);
+      // logoutTimer = setTimeout(logoutHandler, tokenData.duration);
     }
   }, [tokenData, logoutHandler]);
 
