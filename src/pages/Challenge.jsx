@@ -125,7 +125,7 @@ function Challenge() {
           showErrorPopup("يجب رفع صورة لإتمام المهمة");
         } else {
           extractTaskEntity(response.user_task_progress);
-          handleGainingPoints(dailyTask.points, response.user_task_progress.streak, true);
+          handleGainingPoints(dailyTask.points * response.user_task_progress.streak, response.user_task_progress.streak, true);
         }
       }
     } catch (error) {
@@ -184,10 +184,10 @@ function Challenge() {
       { method: 'POST', body: JSON.stringify({ answer: selectedChoice }) }
     );
     extractMcqEntity(response.user_task_progress);
-    const isCorrect = mcqQuestion.user_answer === mcqQuestion.correct_answer;
+    const isCorrect = (mcqQuestion.user_answer === mcqQuestion.correct_answer);
 
     if (isCorrect) {
-      handleGainingPoints(mcqQuestion.points, tracker.current_streak, false);
+      handleGainingPoints(mcqQuestion.points * tracker.current_streak, tracker.current_streak, false);
     }
   };
 
