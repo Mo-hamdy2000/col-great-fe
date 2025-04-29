@@ -972,3 +972,342 @@ footer a {
   align-items: center;
   gap: 2px;
 }
+
+/* Mobile Responsiveness Improvements */
+.auth-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    margin: 0 auto;
+    min-height: 650px;
+  }
+  
+  .form-container {
+    width: 100%;
+  }
+  
+  .sign-in-container, 
+  .sign-up-container {
+    position: relative;
+    height: auto;
+    min-height: 400px;
+    width: 100%;
+    transform: none;
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  .sign-in-container {
+    display: block;
+  }
+  
+  .sign-up-container {
+    display: none;
+  }
+  
+  .container.right-panel-active .sign-up-container {
+    display: block;
+    transform: none;
+  }
+  
+  .container.right-panel-active .sign-in-container {
+    display: none;
+    transform: none;
+  }
+  
+  /* Add mobile toggle buttons for sign-in/sign-up */
+  .mobile-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .mobile-toggle-button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 1px solid var(--dental-blue);
+    color: var(--dental-blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .mobile-toggle-button.active {
+    background-color: var(--dental-blue);
+    color: white;
+  }
+  
+  .site-header {
+    padding: 0.5rem;
+  }
+  
+  .site-logo {
+    height: 60px;
+  }
+  
+  .about-grid,
+  .gallery-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .about-section,
+  .services-gallery,
+  .testimonials-section {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about-image-container {
+    height: 200px;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-card h3 {
+    font-size: 1.5rem;
+  }
+  
+  .gallery-item {
+    aspect-ratio: 1/1;
+  }
+  
+  .gallery-overlay {
+    padding: 1rem;
+    transform: translateY(0);
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  .gallery-overlay h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .gallery-overlay p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .testimonial-card {
+    padding: 1rem;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  
+  .footer-logo-image {
+    max-width: 80px;
+    max-height: 80px;
+  }
+  
+  .social-links {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  button {
+    padding: 10px 30px;
+    font-size: 0.9rem;
+  }
+  
+  input {
+    padding: 10px;
+    margin: 6px 0;
+  }
+  
+  form {
+    padding: 0 20px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    margin: 10px 0 20px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .container {
+    min-height: 550px;
+  }
+  
+  .site-logo {
+    height: 50px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .about-image-container {
+    height: 150px;
+  }
+  
+  .about-text p {
+    font-size: 0.85rem;
+  }
+  
+  .about-list li {
+    font-size: 0.85rem;
+  }
+  
+  .stat-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .stat-card p {
+    font-size: 0.8rem;
+  }
+  
+  .gallery-overlay h3 {
+    font-size: 1rem;
+  }
+  
+  .gallery-overlay p {
+    font-size: 0.8rem;
+  }
+  
+  .testimonial-card {
+    padding: 0.8rem;
+  }
+  
+  .testimonial-text {
+    font-size: 0.85rem;
+  }
+  
+  .patient-name {
+    font-size: 1rem;
+  }
+  
+  .patient-title {
+    font-size: 0.8rem;
+  }
+  
+  button {
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+  
+  h1 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Fix for the sign-in/sign-up form on mobile */
+@media (max-width: 768px) {
+  .registration {
+    height: auto;
+    padding: 20px 0;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .sign-in-container,
+  .sign-up-container {
+    position: relative;
+    height: auto;
+    min-height: 400px;
+    width: 100%;
+    transform: none;
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  .sign-in-container {
+    display: block;
+  }
+  
+  .sign-up-container {
+    display: none;
+  }
+  
+  .container.right-panel-active .sign-up-container {
+    display: block;
+    transform: none;
+  }
+  
+  .container.right-panel-active .sign-in-container {
+    display: none;
+    transform: none;
+  }
+  
+  /* Add mobile toggle buttons for sign-in/sign-up */
+  .mobile-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .mobile-toggle-button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 1px solid var(--dental-blue);
+    color: var(--dental-blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .mobile-toggle-button.active {
+    background-color: var(--dental-blue);
+    color: white;
+  }
+}
+
+/* Ensure the footer stays at the bottom */
+.site-footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Fix for the background image on mobile */
+.dental-background::before {
+  background-attachment: scroll;
+}
+
+/* Improve touch targets for mobile */
+button, 
+.social-link,
+.gallery-item {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure proper spacing between sections on mobile */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 70px;
+  }
+  
+  .about-section,
+  .services-gallery,
+  .testimonials-section {
+    margin-bottom: 2rem;
+  }
+}

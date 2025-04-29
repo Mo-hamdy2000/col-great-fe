@@ -24,7 +24,8 @@ export const makeAuthenticatedRequest = async (endpoint, options = {}) => {
     
     alert('Your login has expired. Please log in again.');
     
-    window.location.href = '/';
+    // Hardcoded path for GitHub Pages
+    window.location.href = '/col-great-fe/';
     return null;
   }
 

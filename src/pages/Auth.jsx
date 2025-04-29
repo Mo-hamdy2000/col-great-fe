@@ -16,6 +16,7 @@ import serv6 from "../Assets/serv_6.jpg";
 const Auth = () => {
   const [type, setType] = useState("signIn");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const images = [who1, who2, who3];
   const services = [
     {
@@ -55,7 +56,16 @@ const Auth = () => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 3000);
 
-    return () => clearInterval(interval);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [images.length]);
 
   const handleOnClick = (text) => {
@@ -68,17 +78,15 @@ const Auth = () => {
     "container " + (type === "signUp" ? "right-panel-active" : "");
     
   return (
-    <div>
+    <div className="auth-page">
       {/* Header with Logo and Title */}
-      <center>  
-        <header className="site-header">
-          <div className="header-content">
-            <div className="logo-container">
-              <img src={logo} alt="Logo" className="site-logo" />
-            </div>
+      <header className="site-header">
+        <div className="header-content">
+          <div className="logo-container">
+            <img src={logo} alt="Logo" className="site-logo" />
           </div>
-        </header>
-      </center>
+        </div>
+      </header>
 
       <div className="main-content">
         {/* Background div */}
@@ -86,39 +94,57 @@ const Auth = () => {
         
         {/* Auth Container - Updated structure */}
         <div className="registration">
+          {isMobile && (
+            <div className="mobile-toggle-container">
+              <button 
+                className={`mobile-toggle-button ${type === "signIn" ? "active" : ""}`}
+                onClick={() => handleOnClick("signIn")}
+              >
+                تسجيل الدخول
+              </button>
+              <button 
+                className={`mobile-toggle-button ${type === "signUp" ? "active" : ""}`}
+                onClick={() => handleOnClick("signUp")}
+              >
+                إنشاء حساب
+              </button>
+            </div>
+          )}
           <div className={containerClass} id="container">
             <SignUpForm />
             <SignInForm />
-            <div className="overlay-container">
-              <div className="overlay">
-                <div className="overlay-panel overlay-left">
-                  <h1>تمتلك حساب بالفعل؟</h1>
-                  <p className="overlay-description">
-                    قم بتسجيل الدخول للوصول إلى ملفك الشخصي ومتابعة رحلة صحة فمك
-                  </p>
-                  <button
-                    className="ghost btn-dental"
-                    id="signIn"
-                    onClick={() => handleOnClick("signIn")}
-                  >
-                    تسجيل الدخول
-                  </button>
-                </div>
-                <div className="overlay-panel overlay-right">
-                  <h1>كولجريت</h1>
-                  <p className="overlay-description">
-                    انضم إلينا اليوم واكتشف عالماً من العناية الصحية المتطورة
-                  </p>
-                  <button
-                    className="ghost btn-dental"
-                    id="signUp"
-                    onClick={() => handleOnClick("signUp")}
-                  >
-                    إنشاء حساب جديد
-                  </button>
+            {!isMobile && (
+              <div className="overlay-container">
+                <div className="overlay">
+                  <div className="overlay-panel overlay-left">
+                    <h1>تمتلك حساب بالفعل؟</h1>
+                    <p className="overlay-description">
+                      قم بتسجيل الدخول للوصول إلى ملفك الشخصي ومتابعة رحلة صحة فمك
+                    </p>
+                    <button
+                      className="ghost btn-dental"
+                      id="signIn"
+                      onClick={() => handleOnClick("signIn")}
+                    >
+                      تسجيل الدخول
+                    </button>
+                  </div>
+                  <div className="overlay-panel overlay-right">
+                    <h1>كولجريت</h1>
+                    <p className="overlay-description">
+                      انضم إلينا اليوم واكتشف عالماً من العناية الصحية المتطورة
+                    </p>
+                    <button
+                      className="ghost btn-dental"
+                      id="signUp"
+                      onClick={() => handleOnClick("signUp")}
+                    >
+                      إنشاء حساب جديد
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -160,9 +186,9 @@ const Auth = () => {
         <div className="services-gallery">
           <h2 className="section-title">خدماتنا العلاجية</h2>
           <div className="gallery-grid">
-            {services.map((item) => (
-              <div key={item} className="gallery-item">
-                <img src={item.image} alt={`Dental Service ${item}`} />
+            {services.map((item, index) => (
+              <div key={index} className="gallery-item">
+                <img src={item.image} alt={`Dental Service ${item.title}`} />
                 <div className="gallery-overlay">
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
@@ -205,8 +231,6 @@ const Auth = () => {
           </div>
         </div>
       </div>
-
-      
 
       {/* Footer */}
       <footer className="site-footer">

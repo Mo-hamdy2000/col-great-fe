@@ -25,7 +25,7 @@ const retrieveStoredToken = () => {
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
-  if (remainingTime <= 30 * 24 * 3600 * 1000) {
+  if (remainingTime <= 1000) {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
     localStorage.removeItem("isAdmin");
@@ -69,11 +69,16 @@ export const AuthContextProvider = (props) => {
   const loginHandler = (token, expirationTime, isAdmin) => {
     setToken(token);
     setIsAdmin(isAdmin);
+    
+    // Calculate expiration time (30 days from now)
+    const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+    const expirationDate = new Date(new Date().getTime() + thirtyDaysInMs).toISOString();
+    
     localStorage.setItem("token", token);
-    localStorage.setItem("expirationTime", expirationTime);
+    localStorage.setItem("expirationTime", expirationDate);
     localStorage.setItem("isAdmin", isAdmin);
 
-    const remainingTime = calculateRemainingTime(expirationTime);
+    const remainingTime = calculateRemainingTime(expirationDate);
 
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
